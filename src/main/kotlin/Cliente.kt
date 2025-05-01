@@ -12,8 +12,8 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.time.LocalDateTime
 
-@Serializable
-data class PostData(val data: String)
+/*@Serializable
+data class PostData(val data: String)*/
 
 fun main(): Unit = runBlocking {
     val client = HttpClient(CIO) {
@@ -24,9 +24,9 @@ fun main(): Unit = runBlocking {
 
     client.use {
         // Realizar 100 peticiones GET concurrentes
-        (0..1000).map { index ->
+        (0..5000).map { index ->
             async {
-                delay(index * 25L)
+                delay(index * 5L)
                 val response: HttpResponse = it.get("http://localhost/hello/${LocalDateTime.now()}")
                 println("Request #$index: ${response.bodyAsText()}")
             }

@@ -11,8 +11,8 @@ val ports = mapOf(
     8080 to "Hello from 8080",
     8081 to "el puerto 8081",
     8082 to "otro puerto 8082",
-    8083 to "otro puerto 8083",
-    8084 to "otro puerto 8084"
+    8083 to "puerto diferente 8083",
+    8084 to "aun puerto 8084"
 )
 
 fun main() {
@@ -30,13 +30,17 @@ fun main() {
 fun Application.module(port:Int) {
     routing {
         get("/") {
-            call.respondText("Hello, world!", ContentType.Text.Plain)
-            println("Hello, world! $port")
+            "Hello, world! ${ports[port]}".let {
+                call.respondText(it, ContentType.Text.Plain)
+                println(it)
+            }
         }
         get("/hello/{name}") {
             val name = call.parameters["name"]
-            call.respondText("Hello, $name!", ContentType.Text.Plain)
-            println("Hello, $name! $port")
+            "Hello, $name! ${ports[port]}".let {
+                call.respondText(it, ContentType.Text.Plain)
+                println(it)
+            }
         }
     }
 }
